@@ -7,32 +7,43 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.example.medanospaper.model.PostModel
+import com.example.medanospaper.viewModel.PostViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PostCard() {
+fun PostCard(post: PostModel, navController: NavController, viewModel: PostViewModel) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
-        ),
+        onClick = {
+            viewModel.onSelectPost(post)
+            navController.navigate("DetailPostView")
+        },
+        //elevation = CardDefaults.cardElevation(
+        //    defaultElevation = 6.dp
+        //),
         modifier = Modifier
             .fillMaxWidth()
-            .height(160.dp)
+            .height(120.dp)
             .padding(horizontal = 16.dp)
     ) {
         Row(
@@ -40,7 +51,7 @@ fun PostCard() {
                 .fillMaxWidth(1f)
         ) {
             val image =
-                rememberImagePainter(data = "https://www.ingenierowhite.com/wp-content/uploads/2024/05/puma-energy-1140x570.jpg")
+                rememberImagePainter(data = post.jetpack_featured_media_url)
             Box(
                 modifier = Modifier
                     .weight(2f)
@@ -53,6 +64,7 @@ fun PostCard() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
+                        .clip(RoundedCornerShape(10.dp))
                 )
             }
             Box(
@@ -63,12 +75,11 @@ fun PostCard() {
                 contentAlignment = Alignment.CenterStart
             ) {
                 Text(
-                    text = "Huracan intentara iniciar el operativo recuperación " +
-                            "ante Olimpo, en uno de los adelantos que tendrá la tercera fecha",
+                    text = post.title.rendered,
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp
+                    fontSize = 13.sp,
+                    lineHeight = 18.sp
                 )
             }
         }

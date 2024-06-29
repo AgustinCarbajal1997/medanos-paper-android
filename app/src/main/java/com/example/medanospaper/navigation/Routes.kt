@@ -12,6 +12,7 @@ sealed class Routes (
     val route: String
 ) {
     object HomeView: Routes(Icons.Default.Home, "Últimas", "HomeView")
+    object DetailPostView: Routes(Icons.Default.Home, "Detalle", "DetailPostView")
     object SearchView: Routes(Icons.Default.Search, "Buscador", "SearchView")
     object CategoryView: Routes(Icons.Default.List, "Categorías", "CategoryView")
 }
