@@ -3,9 +3,12 @@ package com.example.medanospaper.navigation
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.medanospaper.viewModel.PostViewModel
+import com.example.medanospaper.views.CategoryListView
 import com.example.medanospaper.views.CategoryView
 import com.example.medanospaper.views.DetailPostView
 import com.example.medanospaper.views.HomeView
@@ -24,7 +27,13 @@ fun NavManager(navHostController: NavHostController, viewModel: PostViewModel, p
             SearchView()
         }
         composable(Routes.CategoryView.route){
-            CategoryView()
+            CategoryView(viewModel, pad, navHostController)
+        }
+        composable("${Routes.CategoryListView.route}/{id}", arguments = listOf(
+            navArgument("id") { type = NavType.IntType }
+        )){
+            val id = it.arguments?.getInt("id") ?: 0
+            CategoryListView(viewModel, pad, id)
         }
     }
 

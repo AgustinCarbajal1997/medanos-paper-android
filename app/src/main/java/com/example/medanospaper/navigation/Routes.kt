@@ -6,13 +6,15 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class Routes (
+sealed class Routes(
     val icon: ImageVector,
     val title: String,
     val route: String
 ) {
-    object HomeView: Routes(Icons.Default.Home, "Últimas", "HomeView")
-    object DetailPostView: Routes(Icons.Default.Home, "Detalle", "DetailPostView")
-    object SearchView: Routes(Icons.Default.Search, "Buscador", "SearchView")
-    object CategoryView: Routes(Icons.Default.List, "Categorías", "CategoryView")
+    object HomeView : Routes(Icons.Default.Home, "Últimas", "HomeView")
+    object DetailPostView : Routes(Icons.Default.Home, "Detalle", "DetailPostView")
+    object SearchView : Routes(Icons.Default.Search, "Buscador", "SearchView")
+    object CategoryView : Routes(Icons.Default.List, "Categorías", "CategoryView")
+    object CategoryListView :
+        Routes(Icons.Default.List, "Listados de Categorias", "CategoryListView")
 }
