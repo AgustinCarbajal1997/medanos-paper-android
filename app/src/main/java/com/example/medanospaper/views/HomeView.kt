@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.medanospaper.components.ActivityIndicator
 import com.example.medanospaper.components.PostCard
 import com.example.medanospaper.viewModel.PostViewModel
 
@@ -27,19 +28,24 @@ fun HomeView(viewModel: PostViewModel, pad: PaddingValues, navController: NavCon
 @Composable
 fun ContentHomeView(viewModel: PostViewModel, pad: PaddingValues, navController: NavController) {
     val posts by viewModel.posts.collectAsState()
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier.padding(pad)
-    ) {
-        itemsIndexed(posts) { idx, item ->
-            Box(
-                modifier = Modifier
-                    .padding(top = if (idx > 1) 0.dp else 16.dp)
-                    .clickable {
+    val loading by viewModel.loading.collectAsState()
+    if(loading) {
+        ActivityIndicator(pad)
+    } else {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(pad)
+        ) {
+            itemsIndexed(posts) { idx, item ->
+                Box(
+                    modifier = Modifier
+                        .padding(top = if (idx > 1) 0.dp else 16.dp)
+                        .clickable {
 
-                    }
-            ) {
-                PostCard(item, navController, viewModel)
+                        }
+                ) {
+                    PostCard(item, navController, viewModel)
+                }
             }
         }
     }

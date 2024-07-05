@@ -41,7 +41,6 @@ fun CategoryView(viewModel: PostViewModel, pad: PaddingValues, navController: Na
 
 @Composable
 fun ContentCategoryView(viewModel: PostViewModel, pad: PaddingValues, navController: NavController) {
-    val image = R.drawable.agro
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),

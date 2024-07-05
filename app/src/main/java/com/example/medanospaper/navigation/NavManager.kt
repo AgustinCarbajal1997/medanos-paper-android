@@ -33,7 +33,7 @@ fun NavManager(navHostController: NavHostController, viewModel: PostViewModel, p
             navArgument("id") { type = NavType.IntType }
         )){
             val id = it.arguments?.getInt("id") ?: 0
-            CategoryListView(viewModel, pad, id)
+            CategoryListView(viewModel, pad, id, navHostController)
         }
     }
 
