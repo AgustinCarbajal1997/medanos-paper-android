@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -21,11 +22,13 @@ class PostViewModel @Inject constructor(private val repo: PostRepository): ViewM
     private val _selectedPost = MutableStateFlow<PostModel>(PostModel())
     private val _postsByCategory = MutableStateFlow<List<PostModel>>(emptyList())
     private val _loading = MutableStateFlow<Boolean>(false)
+    private val _loadingMorePosts = MutableStateFlow<Boolean>(false)
     private val _loadingByCategory = MutableStateFlow<Boolean>(false)
     val posts = _posts.asStateFlow()
     val selectedPost = _selectedPost.asStateFlow()
     val postsByCategory = _postsByCategory.asStateFlow()
     val loading = _loading.asStateFlow()
+    val loadingMorePosts = _loadingMorePosts.asStateFlow()
     val loadingByCategory = _loadingByCategory.asStateFlow()
 
     init {
@@ -37,9 +40,20 @@ class PostViewModel @Inject constructor(private val repo: PostRepository): ViewM
             withContext(Dispatchers.IO) {
                 _loading.value = true
                 val result = repo.getPosts()
-                println(result)
                 _posts.value = result ?: emptyList()
                 _loading.value = false
+            }
+        }
+    }
+
+    fun loadMorePosts() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _loadingMorePosts.value = true
+                val result = repo.loadMorePosts(10, _posts.value.last().date)
+                println(result)
+                _posts.value = _posts.value + (result ?: emptyList())
+                _loadingMorePosts.value = false
             }
         }
     }
@@ -49,7 +63,6 @@ class PostViewModel @Inject constructor(private val repo: PostRepository): ViewM
             withContext(Dispatchers.IO) {
                 _loadingByCategory.value = true
                 val result = repo.getPostsByCategory(categories)
-                println("result agro" + " " + result)
                 _postsByCategory.value = result ?: emptyList()
                 _loadingByCategory.value = false
             }

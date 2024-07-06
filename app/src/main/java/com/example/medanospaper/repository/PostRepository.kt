@@ -13,6 +13,14 @@ class PostRepository @Inject constructor(private val apiMedanosPaper: ApiMedanos
         return null
     }
 
+    suspend fun loadMorePosts(perPage: Int, before: String): List<PostModel> ? {
+        val response = apiMedanosPaper.loadMorePosts(perPage, before)
+        if(response.isSuccessful){
+            return response.body()
+        }
+        return null
+    }
+
     suspend fun getPostsByCategory(categories: Int): List<PostModel> ? {
         val response = apiMedanosPaper.getPostsByCategoryId(categories)
         if(response.isSuccessful){

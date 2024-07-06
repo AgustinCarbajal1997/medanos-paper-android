@@ -4,6 +4,7 @@ class Constants {
     companion object{
         const val BASE_URL = "https://ingenierowhite.com/wp-json/wp/v2/"
         const val POST = "posts?per_page=10"
+        const val LOAD_MORE_POSTS = "posts"
         const val POST_BY_CATEGORY = "posts"
     }
 }

@@ -22,10 +22,13 @@ fun TabView(viewModel: PostViewModel){
         Routes.SearchView,
         Routes.CategoryView
     )
-    //navController.currentDestination
+    fun onClickBackButton(){
+        navController.popBackStack()
+    }
+
     Scaffold(
         topBar = {
-            MainTopBar(title = "Medanos Paper", onClickBackButton = {}) {}
+            MainTopBar(title = "Medanos Paper", navController, onClickBackButton = { onClickBackButton() }) {}
         },
         bottomBar = {
             BottomNav(navController, navigationRoutes)
