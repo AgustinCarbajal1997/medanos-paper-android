@@ -24,7 +24,7 @@ fun NavManager(navHostController: NavHostController, viewModel: PostViewModel, p
             DetailPostView(viewModel, pad)
         }
         composable(Routes.SearchView.route){
-            SearchView()
+            SearchView(pad)
         }
         composable(Routes.CategoryView.route){
             CategoryView(viewModel, pad, navHostController)
