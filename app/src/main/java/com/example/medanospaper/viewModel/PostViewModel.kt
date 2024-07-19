@@ -24,12 +24,14 @@ class PostViewModel @Inject constructor(private val repo: PostRepository): ViewM
     private val _loading = MutableStateFlow<Boolean>(false)
     private val _loadingMorePosts = MutableStateFlow<Boolean>(false)
     private val _loadingByCategory = MutableStateFlow<Boolean>(false)
+    private val _search = MutableStateFlow<String>("")
     val posts = _posts.asStateFlow()
     val selectedPost = _selectedPost.asStateFlow()
     val postsByCategory = _postsByCategory.asStateFlow()
     val loading = _loading.asStateFlow()
     val loadingMorePosts = _loadingMorePosts.asStateFlow()
     val loadingByCategory = _loadingByCategory.asStateFlow()
+    val search = _search.asStateFlow()
 
     init {
         fetchPosts()
@@ -71,6 +73,14 @@ class PostViewModel @Inject constructor(private val repo: PostRepository): ViewM
 
     fun onSelectPost(post: PostModel){
         _selectedPost.value = post
+    }
+
+    fun onChangeSearchText(text: String){
+        _search.value = text
+    }
+
+    fun onSubmitSearch(){
+        _search.value = ""
     }
 
     fun onCleanSelectPost(){
