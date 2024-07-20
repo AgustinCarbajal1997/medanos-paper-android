@@ -28,4 +28,12 @@ class PostRepository @Inject constructor(private val apiMedanosPaper: ApiMedanos
         }
         return null
     }
+
+    suspend fun getPostsBySearchString(perPage: Int, search: String): List<PostModel> ? {
+        val response = apiMedanosPaper.getPostsBySearchString(perPage, search)
+        if(response.isSuccessful){
+            return response.body()
+        }
+        return null
+    }
 }

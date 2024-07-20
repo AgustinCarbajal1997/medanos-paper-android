@@ -6,6 +6,7 @@ class Constants {
         const val POST = "posts?per_page=10"
         const val LOAD_MORE_POSTS = "posts"
         const val POST_BY_CATEGORY = "posts"
+        const val POST_BY_SEARCH = "posts"
     }
 }
 

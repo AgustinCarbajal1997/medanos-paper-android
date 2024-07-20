@@ -20,15 +20,19 @@ import javax.inject.Inject
 class PostViewModel @Inject constructor(private val repo: PostRepository): ViewModel(){
     private val _posts = MutableStateFlow<List<PostModel>>(emptyList())
     private val _selectedPost = MutableStateFlow<PostModel>(PostModel())
+    private val _searchPosts = MutableStateFlow<List<PostModel>>(emptyList())
     private val _postsByCategory = MutableStateFlow<List<PostModel>>(emptyList())
     private val _loading = MutableStateFlow<Boolean>(false)
+    private val _loadingSearch = MutableStateFlow<Boolean>(false)
     private val _loadingMorePosts = MutableStateFlow<Boolean>(false)
     private val _loadingByCategory = MutableStateFlow<Boolean>(false)
     private val _search = MutableStateFlow<String>("")
     val posts = _posts.asStateFlow()
     val selectedPost = _selectedPost.asStateFlow()
+    val searchPosts = _searchPosts.asStateFlow()
     val postsByCategory = _postsByCategory.asStateFlow()
     val loading = _loading.asStateFlow()
+    val loadingSearch = _loadingSearch.asStateFlow()
     val loadingMorePosts = _loadingMorePosts.asStateFlow()
     val loadingByCategory = _loadingByCategory.asStateFlow()
     val search = _search.asStateFlow()
@@ -80,6 +84,20 @@ class PostViewModel @Inject constructor(private val repo: PostRepository): ViewM
     }
 
     fun onSubmitSearch(){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _loadingSearch.value = true
+                val result = repo.getPostsBySearchString(40, search.value)
+                println(result)
+                _searchPosts.value = _searchPosts.value + (result ?: emptyList())
+                _loadingSearch.value = false
+            }
+        }
+
+    }
+
+    fun onCleanSearchPosts(){
+        _searchPosts.value = emptyList()
         _search.value = ""
     }
 
