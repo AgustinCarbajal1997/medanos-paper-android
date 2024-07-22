@@ -36,5 +36,4 @@ fun NavManager(navHostController: NavHostController, viewModel: PostViewModel, p
             CategoryListView(viewModel, pad, id, navHostController)
         }
     }
-
 }
